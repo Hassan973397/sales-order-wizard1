@@ -28,7 +28,7 @@ export const DeliverySection = ({ selectedCompany, onSelectCompany }: DeliverySe
 
       <div className="space-y-4 sm:space-y-5">
         <div className="group">
-          <Label htmlFor="deliveryCompany" className="text-xs sm:text-sm font-semibold text-foreground mb-2 block flex items-center gap-1.5 sm:gap-2">
+          <Label htmlFor="deliveryCompany" className="text-xs sm:text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5 sm:gap-2">
             <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-primary rounded-full"></span>
             اختر شركة التوصيل *
           </Label>
