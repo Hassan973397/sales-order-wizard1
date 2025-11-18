@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شركة الغري</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      width: 1200px;
+      height: 630px;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1e40af 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Arial', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .circle1 {
+      width: 160px;
+      height: 160px;
+      top: 50px;
+      left: 100px;
+    }
+    .circle2 {
+      width: 200px;
+      height: 200px;
+      bottom: 50px;
+      right: 100px;
+    }
+    .logo-circle {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+    .logo-circle::before {
+      content: '';
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      position: absolute;
+    }
+    .logo-text {
+      font-size: 80px;
+      font-weight: bold;
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+    .company-name {
+      font-size: 80px;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .subtitle {
+      font-size: 40px;
+      color: rgba(255, 255, 255, 0.95);
+      font-weight: 500;
+    }
+    .line {
+      width: 400px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.5);
+      margin-top: 30px;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="circle circle1"></div>
+  <div class="circle circle2"></div>
+  <div class="logo-circle">
+    <span class="logo-text">ال</span>
+  </div>
+  <h1 class="company-name">شركة الغري</h1>
+  <p class="subtitle">نظام إدارة طلبات المبيعات</p>
+  <div class="line"></div>
+</body>
+</html>
+
