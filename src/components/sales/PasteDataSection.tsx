@@ -283,11 +283,6 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
           )}
         </Button>
 
-        <div className="p-3 sm:p-4 bg-muted/30 rounded-lg sm:rounded-xl border border-border/50">
-          <p className="text-xs sm:text-sm text-muted-foreground text-center">
-            💡 <strong>نصيحة:</strong> يمكنك لصق النص بأي تنسيق، التطبيق سيقوم بتحليله تلقائياً
-          </p>
-        </div>
       </div>
     </div>
   );
