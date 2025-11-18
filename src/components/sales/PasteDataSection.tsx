@@ -228,7 +228,7 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
         <Button
           onClick={handleParse}
           disabled={!pastedText.trim() || isProcessing}
-          className="w-full h-12 sm:h-14 bg-gradient-primary hover:shadow-glow transition-all rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-14 sm:h-16 md:h-18 bg-gradient-primary hover:shadow-glow transition-all rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg md:text-xl disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isProcessing ? (
             <>

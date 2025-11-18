@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, Phone, MapPin, FileText } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { User, Phone, MapPin, FileText, Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface CustomerInfoProps {
   customerName: string;
@@ -50,6 +54,8 @@ export const CustomerInfoSection = ({
   onAddressDetailsChange,
   onNotesChange,
 }: CustomerInfoProps) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="bg-card/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-large border-2 border-border/50 hover:border-primary/30 transition-all duration-300 animate-fade-in hover:shadow-glow/50">
       <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b-2 border-border/50">
@@ -109,25 +115,51 @@ export const CustomerInfoSection = ({
             <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-primary rounded-full"></span>
             المحافظة *
           </Label>
-          <Select value={province} onValueChange={onProvinceChange}>
-            <SelectTrigger 
-              id="province"
-              className="h-12 sm:h-14 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-background/50 hover:bg-background"
-            >
-              <SelectValue placeholder="اختر المحافظة..." />
-            </SelectTrigger>
-            <SelectContent className="bg-card/95 backdrop-blur-sm border-2 border-border/50 max-h-60 rounded-xl shadow-large">
-              {iraqiProvinces.map((prov) => (
-                <SelectItem 
-                  key={prov} 
-                  value={prov}
-                  className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 rounded-lg transition-colors"
-                >
-                  {prov}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                id="province"
+                variant="outline"
+                role="combobox"
+                aria-expanded={open}
+                className="w-full h-12 sm:h-14 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-background/50 hover:bg-background justify-between font-normal"
+              >
+                <span className={cn("truncate", !province && "text-muted-foreground")}>
+                  {province || "اختر المحافظة..."}
+                </span>
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0" align="start">
+              <Command className="bg-card/95 backdrop-blur-sm border-2 border-border/50 rounded-xl shadow-large">
+                <CommandInput placeholder="ابحث عن المحافظة..." className="h-12" />
+                <CommandList className="max-h-60">
+                  <CommandEmpty>لم يتم العثور على محافظة.</CommandEmpty>
+                  <CommandGroup>
+                    {iraqiProvinces.map((prov) => (
+                      <CommandItem
+                        key={prov}
+                        value={prov}
+                        onSelect={() => {
+                          onProvinceChange(prov === province ? "" : prov);
+                          setOpen(false);
+                        }}
+                        className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 rounded-lg transition-colors py-3"
+                      >
+                        <Check
+                          className={cn(
+                            "ml-2 h-4 w-4",
+                            province === prov ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {prov}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
         </div>
 
         <div className="group">
