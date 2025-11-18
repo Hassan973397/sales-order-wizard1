@@ -1,73 +1,82 @@
-# Welcome to your Lovable project
+# 🛒 Sales Order Wizard - نظام إدارة طلبات المبيعات
 
-## Project info
+نظام متكامل وجميل لإنشاء وإدارة طلبات المبيعات مع واجهة مستخدم عصرية وأنيقة.
 
-**URL**: https://lovable.dev/projects/a7fd7223-0878-45bb-a774-dd7516301465
+## ✨ المميزات
 
-## How can I edit this code?
+- 🎨 **تصميم عصري وجميل** - واجهة مستخدم محسّنة مع تدرجات لونية وظلال احترافية
+- 📱 **متجاوب بالكامل** - يعمل بشكل مثالي على جميع الأجهزة
+- 🚀 **سريع وسلس** - أداء عالي مع تأثيرات انتقالية سلسة
+- 📋 **إدارة كاملة للطلبات** - إضافة منتجات، تعديل الكميات والأسعار
+- 🚚 **إدارة شركات التوصيل** - اختيار شركة التوصيل وحساب التكلفة
+- 💰 **حساب تلقائي** - حساب المجموع الفرعي والكلي تلقائياً
 
-There are several ways of editing your application.
+## 🛠️ التقنيات المستخدمة
 
-**Use Lovable**
+- ⚡ **Vite** - أداة بناء سريعة
+- ⚛️ **React** - مكتبة JavaScript لبناء واجهات المستخدم
+- 📘 **TypeScript** - لغة برمجة قوية مع دعم الأنواع
+- 🎨 **Tailwind CSS** - إطار عمل CSS
+- 🧩 **shadcn/ui** - مكونات واجهة مستخدم عالية الجودة
+- 🎯 **React Router** - للتوجيه بين الصفحات
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/a7fd7223-0878-45bb-a774-dd7516301465) and start prompting.
+## 🚀 البدء السريع
 
-Changes made via Lovable will be committed automatically to this repo.
+### المتطلبات
 
-**Use your preferred IDE**
+- Node.js (الإصدار 18 أو أحدث)
+- npm أو yarn أو bun
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### التثبيت
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+```bash
+# 1. استنساخ المستودع
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# 2. الانتقال إلى مجلد المشروع
+cd sales-order-wizard
 
-# Step 3: Install the necessary dependencies.
-npm i
+# 3. تثبيت الحزم
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 4. تشغيل خادم التطوير
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+سيتم فتح التطبيق على `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📦 بناء المشروع للإنتاج
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+سيتم إنشاء مجلد `dist` يحتوي على الملفات الجاهزة للنشر.
 
-## What technologies are used for this project?
+## 🌐 النشر
 
-This project is built with:
+يمكنك نشر المشروع على:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Vercel** - [vercel.com](https://vercel.com)
+- **Netlify** - [netlify.com](https://netlify.com)
+- **GitHub Pages** - [pages.github.com](https://pages.github.com)
 
-## How can I deploy this project?
+## 📝 الاستخدام
 
-Simply open [Lovable](https://lovable.dev/projects/a7fd7223-0878-45bb-a774-dd7516301465) and click on Share -> Publish.
+1. **إدخال معلومات الزبون**: اسم، رقم الهاتف، المحافظة، والعنوان
+2. **البحث عن المنتجات**: ابحث عن المنتجات وأضفها للطلب
+3. **تعديل الطلب**: يمكنك تعديل الكميات والأسعار
+4. **اختيار شركة التوصيل**: اختر شركة التوصيل المناسبة
+5. **إنشاء الطلب**: راجع الملخص وأنشئ الطلب
 
-## Can I connect a custom domain to my Lovable project?
+## 📄 الترخيص
 
-Yes, you can!
+هذا المشروع متاح للاستخدام الحر.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 👨‍💻 المساهمة
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+نرحب بجميع المساهمات! يرجى فتح issue أو pull request.
+
+---
+
+صُنع بـ ❤️ باستخدام React و TypeScript
