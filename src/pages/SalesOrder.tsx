@@ -10,15 +10,6 @@ import { Product, DeliveryCompany, OrderItem, SalesOrder } from "@/types/sales";
 import { toast } from "sonner";
 import { CheckCircle2, Settings } from "lucide-react";
 
-// منتج تجريبي افتراضي
-const defaultProduct: Product = {
-  id: "demo-1",
-  name: "منتج تجريبي - لابتوب Dell",
-  price: 500000,
-  stock: 10,
-  sku: "DEMO-001"
-};
-
 const SalesOrderPage = () => {
   const [customerName, setCustomerName] = useState("");
   const [phone, setPhone] = useState("");
@@ -30,22 +21,8 @@ const SalesOrderPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
-  // إضافة منتج تجريبي عند تحميل الصفحة (في نهاية القائمة)
+  // تطبيق شركة التوصيل الافتراضية عند تحميل الصفحة
   useEffect(() => {
-    // إضافة المنتج التجريبي فقط مرة واحدة عند تحميل الصفحة
-    setOrderItems(prev => {
-      const hasDemoProduct = prev.some(item => item.product.id === defaultProduct.id);
-      if (!hasDemoProduct) {
-        return [...prev, {
-          product: defaultProduct,
-          quantity: 1,
-          price: defaultProduct.price
-        }];
-      }
-      return prev;
-    });
-
-    // تطبيق شركة التوصيل الافتراضية
     const defaultCompany = getDefaultDeliveryCompany();
     if (defaultCompany) {
       setDeliveryCompany(defaultCompany);
