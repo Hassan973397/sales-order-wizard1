@@ -31,8 +31,8 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
       productName?: string;
     } = {};
 
-    // تنظيف النص
-    const cleanText = text.trim().replace(/\s+/g, " ");
+    // تقسيم النص إلى أسطر
+    const lines = text.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
 
     // قائمة المحافظات العراقية
     const iraqiProvinces = [
@@ -42,154 +42,114 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
       "أربيل", "السليمانية", "دهوك"
     ];
 
-    // استخراج اسم الزبون - أنماط متعددة
-    const namePatterns = [
-      /الزبون\s*:?\s*([^\n\r]+?)(?=\s*(?:الرقم|رقم|07|078|079|075|077|076|العنوان|عنوان|المنتج|منتج|$))/i,
-      /اسم\s*:?\s*([^\n\r]+?)(?=\s*(?:الرقم|رقم|07|078|079|075|077|076|العنوان|عنوان|المنتج|منتج|$))/i,
-      /العميل\s*:?\s*([^\n\r]+?)(?=\s*(?:الرقم|رقم|07|078|079|075|077|076|العنوان|عنوان|المنتج|منتج|$))/i,
-      /^([^\n\r]+?)(?=\s*(?:الرقم|رقم|07|078|079|075|077|076|العنوان|عنوان|المنتج|منتج))/i,
-    ];
-    
-    for (const pattern of namePatterns) {
-      const match = cleanText.match(pattern);
-      if (match && match[1]) {
-        const name = match[1].trim();
-        // التأكد من أن النص ليس رقم هاتف أو محافظة
-        if (!/^\d+$/.test(name) && !iraqiProvinces.some(p => name.includes(p))) {
-          result.customerName = name;
-          break;
+    // معالجة كل سطر
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      
+      // 1. البحث عن الاسم (السطر الأول عادة أو الذي يحتوي على "الزبون" أو "اسم")
+      if (!result.customerName) {
+        const nameMatch = line.match(/^(?:الزبون|اسم|العميل)\s*:?\s*(.+)$/i);
+        if (nameMatch && nameMatch[1]) {
+          const name = nameMatch[1].trim();
+          // التأكد من أن النص ليس رقم هاتف
+          if (!/^0?7\d{9,10}$/.test(name)) {
+            result.customerName = name;
+            continue;
+          }
+        }
+        // إذا كان السطر الأول ولا يحتوي على كلمات مفتاحية، قد يكون الاسم
+        if (i === 0 && !line.match(/^(?:الرقم|رقم|العنوان|عنوان|المنتج|منتج|0?7\d)/i)) {
+          const isPhone = /^0?7\d{9,10}$/.test(line);
+          const isProvince = iraqiProvinces.some(p => line.includes(p));
+          if (!isPhone && !isProvince && line.length > 2) {
+            result.customerName = line;
+            continue;
+          }
         }
       }
-    }
 
-    // استخراج رقم الهاتف - أنماط متعددة
-    const phonePatterns = [
-      /الرقم\s*:?\s*(0?7[0-9]{9,10})/i,
-      /رقم\s*:?\s*(0?7[0-9]{9,10})/i,
-      /(0?7[0-9]{9,10})/g,
-    ];
-    
-    const phoneMatches = cleanText.match(/(0?7[0-9]{9,10})/g);
-    if (phoneMatches && phoneMatches.length > 0) {
-      // أخذ أول رقم هاتف صحيح
-      const phone = phoneMatches[0];
-      if (phone.length >= 10 && phone.length <= 11) {
-        result.phone = phone.startsWith("0") ? phone : `0${phone}`;
+      // 2. البحث عن رقم الهاتف
+      if (!result.phone) {
+        const phoneMatch = line.match(/^(?:الرقم|رقم)\s*:?\s*(0?7\d{9,10})/i);
+        if (phoneMatch && phoneMatch[1]) {
+          const phone = phoneMatch[1];
+          result.phone = phone.startsWith("0") ? phone : `0${phone}`;
+          continue;
+        }
+        // البحث عن رقم هاتف في السطر بدون كلمة "الرقم"
+        const phoneOnly = line.match(/^(0?7\d{9,10})$/);
+        if (phoneOnly && phoneOnly[1]) {
+          const phone = phoneOnly[1];
+          result.phone = phone.startsWith("0") ? phone : `0${phone}`;
+          continue;
+        }
       }
-    }
 
-    // استخراج العنوان والمحافظة
-    const addressPatterns = [
-      /العنوان\s*:?\s*([^\n\r]+?)(?=\s*(?:المنتج|منتج|$))/i,
-      /عنوان\s*:?\s*([^\n\r]+?)(?=\s*(?:المنتج|منتج|$))/i,
-    ];
-
-    // البحث عن المحافظة في النص
-    let foundProvince = "";
-    let provinceIndex = -1;
-    for (const province of iraqiProvinces) {
-      const index = cleanText.indexOf(province);
-      if (index !== -1) {
-        foundProvince = province;
-        provinceIndex = index;
-        break;
-      }
-    }
-
-    // استخراج العنوان
-    for (const pattern of addressPatterns) {
-      const match = cleanText.match(pattern);
-      if (match && match[1]) {
-        const addressText = match[1].trim();
-        
-        if (foundProvince && addressText.includes(foundProvince)) {
-          // إذا كانت المحافظة موجودة في نص العنوان
-          result.province = foundProvince;
-          // استخراج تفاصيل العنوان (كل شيء بعد المحافظة)
-          const provinceInAddressIndex = addressText.indexOf(foundProvince);
-          if (provinceInAddressIndex !== -1) {
-            const afterProvince = addressText.substring(provinceInAddressIndex + foundProvince.length).trim();
-            result.addressDetails = afterProvince || "";
+      // 3. البحث عن العنوان والمحافظة
+      if (!result.province && !result.addressDetails) {
+        const addressMatch = line.match(/^(?:العنوان|عنوان)\s*:?\s*(.+)$/i);
+        if (addressMatch && addressMatch[1]) {
+          const addressText = addressMatch[1].trim();
+          
+          // البحث عن المحافظة في العنوان
+          let foundProvince = "";
+          for (const province of iraqiProvinces) {
+            if (addressText.includes(province)) {
+              foundProvince = province;
+              break;
+            }
+          }
+          
+          if (foundProvince) {
+            result.province = foundProvince;
+            // استخراج تفاصيل العنوان (كل شيء بعد المحافظة)
+            const provinceIndex = addressText.indexOf(foundProvince);
+            const afterProvince = addressText.substring(provinceIndex + foundProvince.length).trim();
+            result.addressDetails = afterProvince;
           } else {
-            result.addressDetails = addressText.replace(foundProvince, "").trim();
+            // إذا لم نجد محافظة في هذا السطر، نبحث في السطور التالية
+            result.addressDetails = addressText;
           }
-        } else if (foundProvince) {
-          // إذا كانت المحافظة موجودة في النص لكن ليس في نص العنوان
-          result.province = foundProvince;
-          result.addressDetails = addressText;
-        } else {
-          // إذا لم نجد محافظة، نحاول البحث في النص الكامل
-          result.addressDetails = addressText;
+          continue;
         }
-        break;
-      }
-    }
-
-    // إذا لم نجد عنوان محدد لكن وجدنا محافظة في النص
-    if (foundProvince && !result.province && provinceIndex !== -1) {
-      result.province = foundProvince;
-      // استخراج تفاصيل العنوان بعد المحافظة
-      const afterProvince = cleanText.substring(provinceIndex + foundProvince.length).trim();
-      // البحث عن الكلمات التالية (المنتج، الرقم، إلخ)
-      const nextKeywordMatch = afterProvince.match(/\s*(المنتج|منتج|الرقم|رقم|$)/i);
-      if (nextKeywordMatch && nextKeywordMatch.index !== undefined) {
-        result.addressDetails = afterProvince.substring(0, nextKeywordMatch.index).trim();
-      } else {
-        // إذا لم نجد كلمة تالية، نأخذ أول 100 حرف
-        result.addressDetails = afterProvince.substring(0, 100).trim();
-      }
-    }
-
-    // استخراج اسم المنتج - أنماط متعددة
-    const productPatterns = [
-      /المنتج\s*:?\s*([^\n\r]+?)(?=\s*$)/i,
-      /منتج\s*:?\s*([^\n\r]+?)(?=\s*$)/i,
-      /الصنف\s*:?\s*([^\n\r]+?)(?=\s*$)/i,
-      /السلعة\s*:?\s*([^\n\r]+?)(?=\s*$)/i,
-    ];
-
-    for (const pattern of productPatterns) {
-      const match = cleanText.match(pattern);
-      if (match && match[1]) {
-        const productText = match[1].trim();
-        // تنظيف المنتج من أي محافظة قد تكون موجودة
-        let cleanProduct = productText;
+        
+        // إذا لم نجد كلمة "العنوان"، نبحث عن محافظة في السطر
         for (const province of iraqiProvinces) {
-          if (productText.includes(province)) {
-            cleanProduct = productText.replace(province, "").trim();
-            break;
+          if (line.includes(province)) {
+            result.province = province;
+            // استخراج تفاصيل العنوان بعد المحافظة
+            const provinceIndex = line.indexOf(province);
+            const afterProvince = line.substring(provinceIndex + province.length).trim();
+            result.addressDetails = afterProvince;
+            continue;
           }
         }
-        result.productName = cleanProduct;
-        break;
       }
-    }
 
-    // إذا لم نجد منتج بتنسيق محدد، نبحث عن كلمات مفتاحية
-    if (!result.productName) {
-      const productKeywords = ["صوبة", "مكيف", "ثلاجة", "لابتوب", "شاشة", "ماوس", "كيبورد", "دوارة"];
-      for (const keyword of productKeywords) {
-        if (cleanText.toLowerCase().includes(keyword.toLowerCase())) {
-          // البحث عن المنتج بعد كلمة "المنتج" أو في نهاية النص
-          const keywordIndex = cleanText.toLowerCase().indexOf(keyword.toLowerCase());
-          
-          // التأكد من أن الكلمة ليست جزء من محافظة أو عنوان
-          const beforeKeyword = cleanText.substring(0, keywordIndex);
-          const isInProvince = iraqiProvinces.some(p => beforeKeyword.includes(p));
-          
-          if (!isInProvince) {
-            // استخراج الجملة التي تحتوي على الكلمة المفتاحية
-            const start = Math.max(0, keywordIndex - 15);
-            const end = Math.min(cleanText.length, keywordIndex + keyword.length + 50);
-            let productText = cleanText.substring(start, end).trim();
-            
-            // إزالة أي محافظة من المنتج
+      // 4. البحث عن المنتج
+      if (!result.productName) {
+        const productMatch = line.match(/^(?:المنتج|منتج|الصنف|السلعة)\s*:?\s*(.+)$/i);
+        if (productMatch && productMatch[1]) {
+          let productText = productMatch[1].trim();
+          // تنظيف المنتج من أي محافظة قد تكون موجودة
+          for (const province of iraqiProvinces) {
+            productText = productText.replace(province, "").trim();
+          }
+          result.productName = productText;
+          continue;
+        }
+        
+        // إذا كان السطر الأخير ولم نجد منتج بعد، قد يكون المنتج
+        if (i === lines.length - 1 && !result.productName) {
+          const isPhone = /^0?7\d{9,10}$/.test(line);
+          const isProvince = iraqiProvinces.some(p => line.includes(p));
+          if (!isPhone && !isProvince && line.length > 2) {
+            let productText = line;
+            // تنظيف المنتج من أي محافظة
             for (const province of iraqiProvinces) {
               productText = productText.replace(province, "").trim();
             }
-            
             result.productName = productText;
-            break;
           }
         }
       }
