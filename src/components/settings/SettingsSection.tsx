@@ -90,8 +90,8 @@ export const SettingsSection = ({ onDefaultDeliveryCompanyChange }: SettingsSect
             شركة التوصيل الافتراضية
           </Label>
           <Select
-            value={defaultDeliveryCompanyId || ""}
-            onValueChange={(value) => setDefaultDeliveryCompanyId(value || null)}
+            value={defaultDeliveryCompanyId || "none"}
+            onValueChange={(value) => setDefaultDeliveryCompanyId(value === "none" ? null : value)}
           >
             <SelectTrigger 
               id="defaultDeliveryCompany"
@@ -104,7 +104,7 @@ export const SettingsSection = ({ onDefaultDeliveryCompanyChange }: SettingsSect
               </SelectValue>
             </SelectTrigger>
             <SelectContent className="bg-card/95 backdrop-blur-sm border-2 border-border/50 rounded-xl shadow-large min-w-[200px]">
-              <SelectItem value="" className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 rounded-lg transition-colors py-3">
+              <SelectItem value="none" className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 rounded-lg transition-colors py-3">
                 <span className="font-bold text-base">لا توجد</span>
               </SelectItem>
               {deliveryCompanies.map((company) => (
