@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Clipboard, Sparkles, CheckCircle2, AlertCircle } from "lucide-react";
+import { Clipboard, Sparkles, CheckCircle2, AlertCircle, ClipboardPaste } from "lucide-react";
 import { toast } from "sonner";
 
 interface PasteDataSectionProps {
@@ -19,6 +19,44 @@ interface PasteDataSectionProps {
 export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
   const [pastedText, setPastedText] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // دالة لصق حقيقية من الحافظة
+  const handlePaste = async () => {
+    try {
+      // التحقق من دعم Clipboard API
+      if (!navigator.clipboard || !navigator.clipboard.readText) {
+        // إذا لم يكن مدعوماً، نركز على Textarea وندع المستخدم يلصق يدوياً
+        textareaRef.current?.focus();
+        toast.info("يرجى استخدام Ctrl+V أو Cmd+V للصق", {
+          description: "أو انقر في حقل النص والصق يدوياً",
+        });
+        return;
+      }
+
+      // قراءة النص من الحافظة
+      const text = await navigator.clipboard.readText();
+      
+      if (text && text.trim()) {
+        setPastedText(text);
+        toast.success("تم لصق النص بنجاح", {
+          description: "يمكنك الآن الضغط على زر التحليل",
+          icon: <ClipboardPaste className="w-5 h-5 text-success" />,
+        });
+      } else {
+        toast.warning("الحافظة فارغة", {
+          description: "يرجى نسخ نص أولاً",
+        });
+      }
+    } catch (error) {
+      console.error("Error pasting:", error);
+      // إذا فشل، نركز على Textarea
+      textareaRef.current?.focus();
+      toast.info("يرجى الصق يدوياً في حقل النص", {
+        description: "استخدم Ctrl+V أو Cmd+V",
+      });
+    }
+  };
 
   // دالة لتحليل النص واستخراج المعلومات
   const parseText = (text: string) => {
@@ -213,9 +251,21 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
           </Label>
           <div className="relative">
             <Textarea
+              ref={textareaRef}
               id="pasteData"
               value={pastedText}
               onChange={(e) => setPastedText(e.target.value)}
+              onPaste={(e) => {
+                // معالجة اللصق اليدوي
+                const pasted = e.clipboardData.getData('text');
+                if (pasted && pasted.trim()) {
+                  setTimeout(() => {
+                    toast.success("تم لصق النص", {
+                      description: "يمكنك الآن الضغط على زر التحليل",
+                    });
+                  }, 100);
+                }
+              }}
               placeholder="مثال:&#10;الزبون حسن الحمداني&#10;الرقم 0780000012&#10;العنوان النجف حي الحرفين&#10;المنتج صوبة كهربائية دوارة"
               className="min-h-[120px] sm:min-h-[150px] text-sm sm:text-base rounded-lg sm:rounded-xl border-2 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-background/50 hover:bg-background resize-none pr-12"
             />
@@ -223,6 +273,17 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
               <Clipboard className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
             </div>
           </div>
+          
+          {/* زر لصق حقيقي */}
+          <Button
+            type="button"
+            onClick={handlePaste}
+            variant="outline"
+            className="w-full h-12 sm:h-14 border-2 border-primary/30 hover:border-primary hover:bg-primary/10 transition-all rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base"
+          >
+            <ClipboardPaste className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
+            لصق من الحافظة
+          </Button>
         </div>
 
         <Button
