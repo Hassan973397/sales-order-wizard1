@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { PasteDataSection } from "@/components/sales/PasteDataSection";
 import { CustomerInfoSection } from "@/components/sales/CustomerInfoSection";
 import { ProductSearchSection } from "@/components/sales/ProductSearchSection";
 import { OrderItemsList } from "@/components/sales/OrderItemsList";
@@ -93,6 +94,69 @@ const SalesOrderPage = () => {
   const deliveryCost = deliveryCompany?.cost || 0;
   const total = subtotal + deliveryCost;
 
+  // معالجة البيانات المستخرجة من النص المُلصق
+  const handleDataParsed = (data: {
+    customerName?: string;
+    phone?: string;
+    address?: string;
+    province?: string;
+    addressDetails?: string;
+    productName?: string;
+  }) => {
+    if (data.customerName) {
+      setCustomerName(data.customerName);
+    }
+    if (data.phone) {
+      setPhone(data.phone);
+    }
+    if (data.province) {
+      setProvince(data.province);
+    }
+    if (data.addressDetails) {
+      setAddressDetails(data.addressDetails);
+    }
+    if (data.productName) {
+      // البحث عن المنتج وإضافته
+      // محاكاة البحث - في التطبيق الحقيقي سيتم الاتصال بـ API
+      const mockProducts: Product[] = [
+        { id: "1", name: "لابتوب HP ProBook 450", price: 850000, stock: 15, sku: "HP-450" },
+        { id: "2", name: "لابتوب Dell Latitude 5420", price: 920000, stock: 8, sku: "DELL-5420" },
+        { id: "3", name: "ماوس Logitech MX Master 3", price: 85000, stock: 45, sku: "LOG-MX3" },
+        { id: "4", name: "كيبورد ميكانيكي RGB", price: 120000, stock: 22, sku: "KB-RGB" },
+        { id: "5", name: "شاشة Samsung 27 بوصة", price: 350000, stock: 12, sku: "SAM-27" },
+        { id: "6", name: "صوبة كهربائية", price: 150000, stock: 30, sku: "HEATER-001" },
+        { id: "7", name: "مكيف هواء", price: 800000, stock: 10, sku: "AC-001" },
+        { id: "8", name: "ثلاجة", price: 1200000, stock: 5, sku: "FRIDGE-001" },
+      ];
+
+      // البحث عن المنتج في القائمة
+      const foundProduct = mockProducts.find(p => 
+        p.name.toLowerCase().includes(data.productName!.toLowerCase()) ||
+        data.productName!.toLowerCase().includes(p.name.toLowerCase())
+      );
+
+      if (foundProduct) {
+        handleAddProduct(foundProduct, 1);
+        toast.success("تم إضافة المنتج تلقائياً", {
+          description: foundProduct.name,
+        });
+      } else {
+        // إذا لم نجد المنتج، نضيفه كمنتج جديد
+        const newProduct: Product = {
+          id: `custom-${Date.now()}`,
+          name: data.productName,
+          price: 0,
+          stock: 999,
+          sku: "CUSTOM"
+        };
+        handleAddProduct(newProduct, 1);
+        toast.info("تم إضافة المنتج (يرجى تحديد السعر)", {
+          description: data.productName,
+        });
+      }
+    }
+  };
+
   // التحقق من إمكانية الإرسال
   const canSubmit = customerName && phone && province && addressDetails && orderItems.length > 0 && deliveryCompany;
 
@@ -180,6 +244,9 @@ const SalesOrderPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* العمود الأيسر - معلومات الطلب */}
           <div className="lg:col-span-2 space-y-4 sm:space-y-6 lg:space-y-8">
+            {/* قسم لصق البيانات */}
+            <PasteDataSection onDataParsed={handleDataParsed} />
+
             <CustomerInfoSection
               customerName={customerName}
               phone={phone}
