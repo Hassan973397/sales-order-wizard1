@@ -19,27 +19,27 @@ export const OrderSummary = ({
   canSubmit,
 }: OrderSummaryProps) => {
   return (
-    <div className="bg-gradient-to-br from-card/95 via-card/90 to-primary/5 backdrop-blur-sm rounded-3xl p-6 md:p-8 shadow-large border-2 border-primary/30 animate-fade-in-scale sticky top-6">
-      <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-border/50">
-        <div className="p-2.5 bg-gradient-primary rounded-xl shadow-medium">
-          <Receipt className="w-5 h-5 text-primary-foreground" />
+    <div className="bg-gradient-to-br from-card/95 via-card/90 to-primary/5 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-large border-2 border-primary/30 animate-fade-in-scale sticky top-4 sm:top-6">
+      <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b-2 border-border/50">
+        <div className="p-2 sm:p-2.5 bg-gradient-primary rounded-lg sm:rounded-xl shadow-medium">
+          <Receipt className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
         </div>
-        <h2 className="text-2xl font-bold text-foreground">
+        <h2 className="text-xl sm:text-2xl font-bold text-foreground">
           ملخص الطلب
         </h2>
       </div>
 
-      <div className="space-y-4">
-        <div className="flex items-center justify-between py-3.5 px-4 bg-gradient-to-r from-secondary/40 to-secondary/20 rounded-xl border-2 border-border/60 shadow-soft">
-          <span className="text-muted-foreground font-semibold text-base">المجموع الفرعي:</span>
-          <span className="font-bold text-foreground text-lg">
+      <div className="space-y-3 sm:space-y-4">
+        <div className="flex items-center justify-between py-2.5 sm:py-3.5 px-3 sm:px-4 bg-gradient-to-r from-secondary/40 to-secondary/20 rounded-lg sm:rounded-xl border-2 border-border/60 shadow-soft">
+          <span className="text-muted-foreground font-semibold text-sm sm:text-base">المجموع الفرعي:</span>
+          <span className="font-bold text-foreground text-base sm:text-lg">
             {subtotal.toLocaleString("en-US")} IQD
           </span>
         </div>
 
-        <div className="flex items-center justify-between py-3.5 px-4 bg-gradient-to-r from-secondary/40 to-secondary/20 rounded-xl border-2 border-border/60 shadow-soft">
-          <span className="text-muted-foreground font-semibold text-base">تكلفة التوصيل:</span>
-          <span className="font-bold text-foreground text-lg">
+        <div className="flex items-center justify-between py-2.5 sm:py-3.5 px-3 sm:px-4 bg-gradient-to-r from-secondary/40 to-secondary/20 rounded-lg sm:rounded-xl border-2 border-border/60 shadow-soft">
+          <span className="text-muted-foreground font-semibold text-sm sm:text-base">تكلفة التوصيل:</span>
+          <span className="font-bold text-foreground text-base sm:text-lg">
             {deliveryCost === 0 
               ? <span className="text-success font-extrabold">مجاناً</span>
               : `${deliveryCost.toLocaleString("en-US")} IQD`}
@@ -48,9 +48,9 @@ export const OrderSummary = ({
 
         <div className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-accent opacity-20 blur-xl"></div>
-          <div className="relative flex items-center justify-between py-5 px-6 bg-gradient-to-r from-primary to-primary/90 rounded-2xl shadow-glow border-2 border-primary/60">
-            <span className="text-lg md:text-xl font-bold text-primary-foreground">المجموع الكلي:</span>
-            <span className="text-2xl md:text-3xl font-extrabold text-primary-foreground">
+          <div className="relative flex items-center justify-between py-4 sm:py-5 px-4 sm:px-6 bg-gradient-to-r from-primary to-primary/90 rounded-xl sm:rounded-2xl shadow-glow border-2 border-primary/60">
+            <span className="text-base sm:text-lg md:text-xl font-bold text-primary-foreground">المجموع الكلي:</span>
+            <span className="text-xl sm:text-2xl md:text-3xl font-extrabold text-primary-foreground">
               {total.toLocaleString("en-US")} IQD
             </span>
           </div>
@@ -59,7 +59,7 @@ export const OrderSummary = ({
         <Button
           onClick={onSubmit}
           disabled={!canSubmit || isSubmitting}
-          className="w-full h-14 md:h-16 text-base md:text-lg font-bold bg-gradient-to-r from-primary via-primary to-accent hover:from-primary/90 hover:to-accent/90 hover:shadow-glow transition-all rounded-xl disabled:opacity-50 disabled:cursor-not-allowed shadow-large hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100"
+          className="w-full h-12 sm:h-14 md:h-16 text-sm sm:text-base md:text-lg font-bold bg-gradient-to-r from-primary via-primary to-accent hover:from-primary/90 hover:to-accent/90 hover:shadow-glow transition-all rounded-lg sm:rounded-xl disabled:opacity-50 disabled:cursor-not-allowed shadow-large hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100"
         >
           {isSubmitting ? (
             <>
@@ -75,8 +75,8 @@ export const OrderSummary = ({
         </Button>
 
         {!canSubmit && (
-          <div className="p-4 bg-destructive/10 border-2 border-destructive/30 rounded-xl">
-            <p className="text-sm text-destructive text-center font-medium">
+          <div className="p-3 sm:p-4 bg-destructive/10 border-2 border-destructive/30 rounded-lg sm:rounded-xl">
+            <p className="text-xs sm:text-sm text-destructive text-center font-medium">
               ⚠️ يرجى إكمال جميع الحقول المطلوبة وإضافة منتج واحد على الأقل
             </p>
           </div>

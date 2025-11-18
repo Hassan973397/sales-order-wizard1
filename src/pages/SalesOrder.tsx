@@ -136,43 +136,40 @@ const SalesOrderPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 py-8 px-4 relative overflow-hidden" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 py-4 sm:py-6 md:py-8 px-3 sm:px-4 relative overflow-hidden" dir="rtl">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-60 h-60 sm:w-80 sm:h-80 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-60 h-60 sm:w-80 sm:h-80 bg-accent/10 rounded-full blur-3xl"></div>
       </div>
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="mb-10 animate-fade-in">
-          <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
-            <div className="flex-1"></div>
-            <div className="flex items-center gap-4">
-              <div className="p-1 bg-gradient-primary rounded-2xl shadow-glow">
-                <div className="bg-card rounded-xl px-6 py-3">
-                  <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
-                    شركة الغري
-                  </h1>
-                </div>
+        <div className="mb-6 sm:mb-8 md:mb-10 animate-fade-in">
+          <div className="flex items-center justify-end gap-2 sm:gap-4 mb-4 sm:mb-6">
+            <div className="p-0.5 sm:p-1 bg-gradient-primary rounded-xl sm:rounded-2xl shadow-glow">
+              <div className="bg-card rounded-lg sm:rounded-xl px-4 sm:px-6 py-2 sm:py-3">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
+                  شركة الغري
+                </h1>
               </div>
             </div>
           </div>
           <div className="text-center">
-            <p className="text-muted-foreground text-lg md:text-xl font-medium mb-2">
+            <p className="text-muted-foreground text-base sm:text-lg md:text-xl font-medium mb-2">
               إنشاء طلب مبيعات جديد
             </p>
             <div className="flex items-center justify-center gap-2">
-              <div className="h-1 w-12 bg-gradient-primary rounded-full"></div>
-              <div className="h-1 w-2 bg-primary rounded-full"></div>
-              <div className="h-1 w-12 bg-gradient-primary rounded-full"></div>
+              <div className="h-0.5 sm:h-1 w-8 sm:w-12 bg-gradient-primary rounded-full"></div>
+              <div className="h-0.5 sm:h-1 w-1.5 sm:w-2 bg-primary rounded-full"></div>
+              <div className="h-0.5 sm:h-1 w-8 sm:w-12 bg-gradient-primary rounded-full"></div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* العمود الأيسر - معلومات الطلب */}
-          <div className="lg:col-span-2 space-y-6 lg:space-y-8">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6 lg:space-y-8">
             <CustomerInfoSection
               customerName={customerName}
               phone={phone}
