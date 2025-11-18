@@ -41,20 +41,22 @@ export const DeliverySection = ({ selectedCompany, onSelectCompany }: DeliverySe
           >
             <SelectTrigger 
               id="deliveryCompany"
-              className="h-14 rounded-xl border-2 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-background/50 hover:bg-background"
+              className="h-14 rounded-xl border-2 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-background/50 hover:bg-background pr-10"
             >
-              <SelectValue placeholder="اختر شركة التوصيل..." />
+              <SelectValue placeholder="اختر شركة التوصيل..." className="text-base font-medium">
+                {selectedCompany ? `${selectedCompany.name} - ${selectedCompany.cost.toLocaleString("en-US")} IQD` : ""}
+              </SelectValue>
             </SelectTrigger>
-            <SelectContent className="bg-card/95 backdrop-blur-sm border-2 border-border/50 rounded-xl shadow-large">
+            <SelectContent className="bg-card/95 backdrop-blur-sm border-2 border-border/50 rounded-xl shadow-large min-w-[200px]">
               {deliveryCompanies.map((company) => (
                 <SelectItem 
                   key={company.id} 
                   value={company.id}
-                  className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 rounded-lg transition-colors"
+                  className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 rounded-lg transition-colors py-3"
                 >
-                  <div className="flex items-center justify-between w-full gap-4">
-                    <span className="font-semibold">{company.name}</span>
-                    <span className="px-3 py-1 bg-primary/10 text-primary font-bold rounded-lg">
+                  <div className="flex items-center justify-between w-full gap-4 pr-2">
+                    <span className="font-bold text-base">{company.name}</span>
+                    <span className="px-3 py-1.5 bg-primary/10 text-primary font-bold rounded-lg whitespace-nowrap">
                       {company.cost.toLocaleString("en-US")} IQD
                     </span>
                   </div>

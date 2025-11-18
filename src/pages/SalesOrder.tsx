@@ -27,13 +27,20 @@ const SalesOrderPage = () => {
   const [deliveryCompany, setDeliveryCompany] = useState<DeliveryCompany | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // إضافة منتج تجريبي عند تحميل الصفحة
+  // إضافة منتج تجريبي عند تحميل الصفحة (في نهاية القائمة)
   useEffect(() => {
-    setOrderItems([{
-      product: defaultProduct,
-      quantity: 1,
-      price: defaultProduct.price
-    }]);
+    // إضافة المنتج التجريبي فقط مرة واحدة عند تحميل الصفحة
+    setOrderItems(prev => {
+      const hasDemoProduct = prev.some(item => item.product.id === defaultProduct.id);
+      if (!hasDemoProduct) {
+        return [...prev, {
+          product: defaultProduct,
+          quantity: 1,
+          price: defaultProduct.price
+        }];
+      }
+      return prev;
+    });
   }, []);
 
   // إضافة منتج للطلب
