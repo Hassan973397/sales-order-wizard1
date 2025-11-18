@@ -86,9 +86,12 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
 
     // البحث عن المحافظة في النص
     let foundProvince = "";
+    let provinceIndex = -1;
     for (const province of iraqiProvinces) {
-      if (cleanText.includes(province)) {
+      const index = cleanText.indexOf(province);
+      if (index !== -1) {
         foundProvince = province;
+        provinceIndex = index;
         break;
       }
     }
@@ -99,33 +102,41 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
       if (match && match[1]) {
         const addressText = match[1].trim();
         
-        if (foundProvince) {
+        if (foundProvince && addressText.includes(foundProvince)) {
+          // إذا كانت المحافظة موجودة في نص العنوان
           result.province = foundProvince;
-          result.addressDetails = addressText.replace(foundProvince, "").trim() || addressText;
-        } else {
-          // إذا لم نجد محافظة في العنوان، نبحث في النص الكامل
-          result.addressDetails = addressText;
-          if (foundProvince) {
-            result.province = foundProvince;
+          // استخراج تفاصيل العنوان (كل شيء بعد المحافظة)
+          const provinceInAddressIndex = addressText.indexOf(foundProvince);
+          if (provinceInAddressIndex !== -1) {
+            const afterProvince = addressText.substring(provinceInAddressIndex + foundProvince.length).trim();
+            result.addressDetails = afterProvince || "";
+          } else {
+            result.addressDetails = addressText.replace(foundProvince, "").trim();
           }
+        } else if (foundProvince) {
+          // إذا كانت المحافظة موجودة في النص لكن ليس في نص العنوان
+          result.province = foundProvince;
+          result.addressDetails = addressText;
+        } else {
+          // إذا لم نجد محافظة، نحاول البحث في النص الكامل
+          result.addressDetails = addressText;
         }
         break;
       }
     }
 
-    // إذا لم نجد عنوان محدد لكن وجدنا محافظة
-    if (foundProvince && !result.province) {
+    // إذا لم نجد عنوان محدد لكن وجدنا محافظة في النص
+    if (foundProvince && !result.province && provinceIndex !== -1) {
       result.province = foundProvince;
-      // محاولة استخراج تفاصيل العنوان بعد المحافظة
-      const provinceIndex = cleanText.indexOf(foundProvince);
-      if (provinceIndex !== -1) {
-        const afterProvince = cleanText.substring(provinceIndex + foundProvince.length).trim();
-        const nextKeyword = afterProvince.match(/(المنتج|منتج|الرقم|رقم)/i);
-        if (nextKeyword) {
-          result.addressDetails = afterProvince.substring(0, nextKeyword.index).trim();
-        } else {
-          result.addressDetails = afterProvince.substring(0, 50).trim(); // أول 50 حرف
-        }
+      // استخراج تفاصيل العنوان بعد المحافظة
+      const afterProvince = cleanText.substring(provinceIndex + foundProvince.length).trim();
+      // البحث عن الكلمات التالية (المنتج، الرقم، إلخ)
+      const nextKeywordMatch = afterProvince.match(/\s*(المنتج|منتج|الرقم|رقم|$)/i);
+      if (nextKeywordMatch && nextKeywordMatch.index !== undefined) {
+        result.addressDetails = afterProvince.substring(0, nextKeywordMatch.index).trim();
+      } else {
+        // إذا لم نجد كلمة تالية، نأخذ أول 100 حرف
+        result.addressDetails = afterProvince.substring(0, 100).trim();
       }
     }
 
@@ -140,22 +151,46 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
     for (const pattern of productPatterns) {
       const match = cleanText.match(pattern);
       if (match && match[1]) {
-        result.productName = match[1].trim();
+        const productText = match[1].trim();
+        // تنظيف المنتج من أي محافظة قد تكون موجودة
+        let cleanProduct = productText;
+        for (const province of iraqiProvinces) {
+          if (productText.includes(province)) {
+            cleanProduct = productText.replace(province, "").trim();
+            break;
+          }
+        }
+        result.productName = cleanProduct;
         break;
       }
     }
 
     // إذا لم نجد منتج بتنسيق محدد، نبحث عن كلمات مفتاحية
     if (!result.productName) {
-      const productKeywords = ["صوبة", "مكيف", "ثلاجة", "لابتوب", "شاشة", "ماوس", "كيبورد"];
+      const productKeywords = ["صوبة", "مكيف", "ثلاجة", "لابتوب", "شاشة", "ماوس", "كيبورد", "دوارة"];
       for (const keyword of productKeywords) {
         if (cleanText.toLowerCase().includes(keyword.toLowerCase())) {
-          // استخراج الجملة التي تحتوي على الكلمة المفتاحية
+          // البحث عن المنتج بعد كلمة "المنتج" أو في نهاية النص
           const keywordIndex = cleanText.toLowerCase().indexOf(keyword.toLowerCase());
-          const start = Math.max(0, keywordIndex - 10);
-          const end = Math.min(cleanText.length, keywordIndex + keyword.length + 30);
-          result.productName = cleanText.substring(start, end).trim();
-          break;
+          
+          // التأكد من أن الكلمة ليست جزء من محافظة أو عنوان
+          const beforeKeyword = cleanText.substring(0, keywordIndex);
+          const isInProvince = iraqiProvinces.some(p => beforeKeyword.includes(p));
+          
+          if (!isInProvince) {
+            // استخراج الجملة التي تحتوي على الكلمة المفتاحية
+            const start = Math.max(0, keywordIndex - 15);
+            const end = Math.min(cleanText.length, keywordIndex + keyword.length + 50);
+            let productText = cleanText.substring(start, end).trim();
+            
+            // إزالة أي محافظة من المنتج
+            for (const province of iraqiProvinces) {
+              productText = productText.replace(province, "").trim();
+            }
+            
+            result.productName = productText;
+            break;
+          }
         }
       }
     }
