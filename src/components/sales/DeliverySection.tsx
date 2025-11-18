@@ -41,9 +41,9 @@ export const DeliverySection = ({ selectedCompany, onSelectCompany }: DeliverySe
           >
             <SelectTrigger 
               id="deliveryCompany"
-              className="h-12 sm:h-14 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-background/50 hover:bg-background pr-8 sm:pr-10 [&>span]:!line-clamp-none [&>span]:!whitespace-nowrap [&>span]:!overflow-visible"
+              className="h-12 sm:h-14 text-sm sm:text-base rounded-lg sm:rounded-xl border-2 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-background/50 hover:bg-background pr-8 sm:pr-10 text-right [&>span]:!line-clamp-none [&>span]:!whitespace-nowrap [&>span]:!overflow-visible [&>span]:!text-right"
             >
-              <SelectValue placeholder="اختر شركة التوصيل..." className="text-sm sm:text-base font-medium">
+              <SelectValue placeholder="اختر شركة التوصيل..." className="text-sm sm:text-base font-medium text-right">
                 {selectedCompany ? `${selectedCompany.name} - ${selectedCompany.cost.toLocaleString("en-US")} IQD` : ""}
               </SelectValue>
             </SelectTrigger>
@@ -54,8 +54,8 @@ export const DeliverySection = ({ selectedCompany, onSelectCompany }: DeliverySe
                   value={company.id}
                   className="cursor-pointer hover:bg-primary/10 focus:bg-primary/10 rounded-lg transition-colors py-3"
                 >
-                  <div className="flex items-center justify-between w-full gap-4 pr-2">
-                    <span className="font-bold text-base">{company.name}</span>
+                  <div className="flex items-center justify-between w-full gap-4 flex-row-reverse">
+                    <span className="font-bold text-base text-right">{company.name}</span>
                     <span className="px-3 py-1.5 bg-primary/10 text-primary font-bold rounded-lg whitespace-nowrap">
                       {company.cost.toLocaleString("en-US")} IQD
                     </span>
