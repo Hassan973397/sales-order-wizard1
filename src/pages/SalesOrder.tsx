@@ -249,6 +249,37 @@ const SalesOrderPage = () => {
           </div>
         </div>
 
+        {/* زر الإعدادات */}
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={() => setShowSettings(!showSettings)}
+            className="px-4 py-2 bg-card/80 backdrop-blur-sm rounded-lg sm:rounded-xl border-2 border-border/50 hover:border-primary/30 transition-all duration-200 text-sm sm:text-base font-semibold text-foreground flex items-center gap-2"
+          >
+            <Settings className="w-4 h-4" />
+            {showSettings ? "إخفاء الإعدادات" : "الإعدادات"}
+          </button>
+        </div>
+
+        {/* قسم الإعدادات */}
+        {showSettings && (
+          <div className="mb-4 sm:mb-6 lg:mb-8 animate-fade-in">
+            <SettingsSection 
+              onDefaultDeliveryCompanyChange={(companyId) => {
+                if (companyId) {
+                  const deliveryCompanies = [
+                    { id: "1", name: "برايم", cost: 5000 },
+                    { id: "2", name: "مرسال", cost: 5000 },
+                  ];
+                  const company = deliveryCompanies.find(c => c.id === companyId);
+                  if (company) {
+                    setDeliveryCompany(company);
+                  }
+                }
+              }}
+            />
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* العمود الأيسر - معلومات الطلب */}
           <div className="lg:col-span-2 space-y-4 sm:space-y-6 lg:space-y-8">
