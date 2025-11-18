@@ -5,9 +5,10 @@ import { ProductSearchSection } from "@/components/sales/ProductSearchSection";
 import { OrderItemsList } from "@/components/sales/OrderItemsList";
 import { DeliverySection } from "@/components/sales/DeliverySection";
 import { OrderSummary } from "@/components/sales/OrderSummary";
+import { SettingsSection, getDefaultDeliveryCompany } from "@/components/settings/SettingsSection";
 import { Product, DeliveryCompany, OrderItem, SalesOrder } from "@/types/sales";
 import { toast } from "sonner";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Settings } from "lucide-react";
 
 // منتج تجريبي افتراضي
 const defaultProduct: Product = {
@@ -27,6 +28,7 @@ const SalesOrderPage = () => {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [deliveryCompany, setDeliveryCompany] = useState<DeliveryCompany | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   // إضافة منتج تجريبي عند تحميل الصفحة (في نهاية القائمة)
   useEffect(() => {
@@ -42,6 +44,12 @@ const SalesOrderPage = () => {
       }
       return prev;
     });
+
+    // تطبيق شركة التوصيل الافتراضية
+    const defaultCompany = getDefaultDeliveryCompany();
+    if (defaultCompany) {
+      setDeliveryCompany(defaultCompany);
+    }
   }, []);
 
   // إضافة منتج للطلب
