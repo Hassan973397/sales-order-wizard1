@@ -65,15 +65,20 @@ export const DeliverySection = ({ selectedCompany, onSelectCompany }: DeliverySe
         </div>
 
         {selectedCompany && (
-          <div className="p-5 bg-gradient-to-r from-primary/10 to-primary/5 border-2 border-primary/30 rounded-2xl shadow-medium animate-fade-in-scale">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Truck className="w-5 h-5 text-primary" />
-                <span className="text-sm font-semibold text-foreground">تكلفة التوصيل:</span>
+          <div className="relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 blur-sm"></div>
+            <div className="relative p-5 bg-gradient-to-r from-primary/15 to-primary/5 border-2 border-primary/40 rounded-2xl shadow-medium animate-fade-in-scale">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-1.5 bg-primary/20 rounded-lg">
+                    <Truck className="w-5 h-5 text-primary" />
+                  </div>
+                  <span className="text-base font-bold text-foreground">تكلفة التوصيل:</span>
+                </div>
+                <span className="text-2xl md:text-3xl font-extrabold text-primary">
+                  {selectedCompany.cost.toLocaleString("en-US")} IQD
+                </span>
               </div>
-              <span className="text-2xl font-bold text-primary">
-                {selectedCompany.cost.toLocaleString("en-US")} IQD
-              </span>
             </div>
           </div>
         )}

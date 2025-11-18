@@ -29,34 +29,37 @@ export const OrderSummary = ({
         </h2>
       </div>
 
-      <div className="space-y-5">
-        <div className="flex items-center justify-between py-4 px-4 bg-secondary/30 rounded-xl border border-border/50">
-          <span className="text-muted-foreground font-medium">المجموع الفرعي:</span>
-          <span className="font-bold text-foreground text-xl">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between py-3.5 px-4 bg-gradient-to-r from-secondary/40 to-secondary/20 rounded-xl border-2 border-border/60 shadow-soft">
+          <span className="text-muted-foreground font-semibold text-base">المجموع الفرعي:</span>
+          <span className="font-bold text-foreground text-lg">
             {subtotal.toLocaleString("en-US")} IQD
           </span>
         </div>
 
-        <div className="flex items-center justify-between py-4 px-4 bg-secondary/30 rounded-xl border border-border/50">
-          <span className="text-muted-foreground font-medium">تكلفة التوصيل:</span>
-          <span className="font-bold text-foreground text-xl">
+        <div className="flex items-center justify-between py-3.5 px-4 bg-gradient-to-r from-secondary/40 to-secondary/20 rounded-xl border-2 border-border/60 shadow-soft">
+          <span className="text-muted-foreground font-semibold text-base">تكلفة التوصيل:</span>
+          <span className="font-bold text-foreground text-lg">
             {deliveryCost === 0 
-              ? <span className="text-success">مجاناً</span>
+              ? <span className="text-success font-extrabold">مجاناً</span>
               : `${deliveryCost.toLocaleString("en-US")} IQD`}
           </span>
         </div>
 
-        <div className="flex items-center justify-between py-5 px-5 bg-gradient-primary rounded-2xl shadow-glow border-2 border-primary/50">
-          <span className="text-xl font-bold text-primary-foreground">المجموع الكلي:</span>
-          <span className="text-3xl font-extrabold text-primary-foreground">
-            {total.toLocaleString("en-US")} IQD
-          </span>
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-accent opacity-20 blur-xl"></div>
+          <div className="relative flex items-center justify-between py-5 px-6 bg-gradient-to-r from-primary to-primary/90 rounded-2xl shadow-glow border-2 border-primary/60">
+            <span className="text-lg md:text-xl font-bold text-primary-foreground">المجموع الكلي:</span>
+            <span className="text-2xl md:text-3xl font-extrabold text-primary-foreground">
+              {total.toLocaleString("en-US")} IQD
+            </span>
+          </div>
         </div>
 
         <Button
           onClick={onSubmit}
           disabled={!canSubmit || isSubmitting}
-          className="w-full h-16 text-lg font-bold bg-gradient-primary hover:shadow-glow transition-all rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed shadow-large hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100"
+          className="w-full h-14 md:h-16 text-base md:text-lg font-bold bg-gradient-to-r from-primary via-primary to-accent hover:from-primary/90 hover:to-accent/90 hover:shadow-glow transition-all rounded-xl disabled:opacity-50 disabled:cursor-not-allowed shadow-large hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100"
         >
           {isSubmitting ? (
             <>

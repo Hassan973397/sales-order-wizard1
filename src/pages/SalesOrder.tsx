@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CustomerInfoSection } from "@/components/sales/CustomerInfoSection";
 import { ProductSearchSection } from "@/components/sales/ProductSearchSection";
 import { OrderItemsList } from "@/components/sales/OrderItemsList";
@@ -7,6 +7,15 @@ import { OrderSummary } from "@/components/sales/OrderSummary";
 import { Product, DeliveryCompany, OrderItem, SalesOrder } from "@/types/sales";
 import { toast } from "sonner";
 import { CheckCircle2 } from "lucide-react";
+
+// منتج تجريبي افتراضي
+const defaultProduct: Product = {
+  id: "demo-1",
+  name: "منتج تجريبي - لابتوب Dell",
+  price: 500000,
+  stock: 10,
+  sku: "DEMO-001"
+};
 
 const SalesOrderPage = () => {
   const [customerName, setCustomerName] = useState("");
@@ -17,6 +26,15 @@ const SalesOrderPage = () => {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [deliveryCompany, setDeliveryCompany] = useState<DeliveryCompany | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // إضافة منتج تجريبي عند تحميل الصفحة
+  useEffect(() => {
+    setOrderItems([{
+      product: defaultProduct,
+      quantity: 1,
+      price: defaultProduct.price
+    }]);
+  }, []);
 
   // إضافة منتج للطلب
   const handleAddProduct = (product: Product, quantity: number) => {
@@ -120,21 +138,28 @@ const SalesOrderPage = () => {
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="mb-10 text-center animate-fade-in">
-          <div className="inline-block p-1 bg-gradient-primary rounded-2xl mb-4 shadow-glow">
-            <div className="bg-card rounded-xl px-6 py-3">
-              <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent mb-2">
-                شركة الغري
-              </h1>
+        <div className="mb-10 animate-fade-in">
+          <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+            <div className="flex-1"></div>
+            <div className="flex items-center gap-4">
+              <div className="p-1 bg-gradient-primary rounded-2xl shadow-glow">
+                <div className="bg-card rounded-xl px-6 py-3">
+                  <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
+                    شركة الغري
+                  </h1>
+                </div>
+              </div>
             </div>
           </div>
-          <p className="text-muted-foreground text-lg md:text-xl font-medium">
-            إنشاء طلب مبيعات جديد
-          </p>
-          <div className="mt-4 flex items-center justify-center gap-2">
-            <div className="h-1 w-12 bg-gradient-primary rounded-full"></div>
-            <div className="h-1 w-2 bg-primary rounded-full"></div>
-            <div className="h-1 w-12 bg-gradient-primary rounded-full"></div>
+          <div className="text-center">
+            <p className="text-muted-foreground text-lg md:text-xl font-medium mb-2">
+              إنشاء طلب مبيعات جديد
+            </p>
+            <div className="flex items-center justify-center gap-2">
+              <div className="h-1 w-12 bg-gradient-primary rounded-full"></div>
+              <div className="h-1 w-2 bg-primary rounded-full"></div>
+              <div className="h-1 w-12 bg-gradient-primary rounded-full"></div>
+            </div>
           </div>
         </div>
 
