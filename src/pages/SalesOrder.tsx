@@ -146,18 +146,28 @@ const SalesOrderPage = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <div className="mb-6 sm:mb-8 md:mb-10 animate-fade-in">
-          <div className="flex items-center justify-end gap-2 sm:gap-4 mb-4 sm:mb-6">
-            <div className="p-0.5 sm:p-1 bg-gradient-primary rounded-xl sm:rounded-2xl shadow-glow">
-              <div className="bg-card rounded-lg sm:rounded-xl px-4 sm:px-6 py-2 sm:py-3">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
-                  شركة الغري
-                </h1>
+          <div className="text-center mb-4 sm:mb-6">
+            {/* Logo */}
+            <div className="inline-block mb-4 sm:mb-6">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-primary rounded-full blur-xl opacity-50"></div>
+                <div className="relative p-1 sm:p-1.5 bg-gradient-primary rounded-full sm:rounded-2xl shadow-glow">
+                  <div className="bg-card rounded-full sm:rounded-xl px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5">
+                    <div className="flex flex-col items-center gap-2 sm:gap-3">
+                      {/* Logo Icon/Text */}
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-primary via-primary to-accent rounded-full flex items-center justify-center shadow-lg">
+                        <span className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary-foreground">ال</span>
+                      </div>
+                      <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
+                        شركة الغري
+                      </h1>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="text-center">
             <p className="text-muted-foreground text-base sm:text-lg md:text-xl font-medium mb-2">
-              إنشاء طلب مبيعات جديد
+              نظام إدارة طلبات المبيعات
             </p>
             <div className="flex items-center justify-center gap-2">
               <div className="h-0.5 sm:h-1 w-8 sm:w-12 bg-gradient-primary rounded-full"></div>

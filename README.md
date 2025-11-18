@@ -55,11 +55,10 @@ npm run build
 
 ## 🌐 النشر
 
-يمكنك نشر المشروع على:
+يمكنك نشر المشروع على أي منصة استضافة:
 
-- **Vercel** - [vercel.com](https://vercel.com)
-- **Netlify** - [netlify.com](https://netlify.com)
-- **GitHub Pages** - [pages.github.com](https://pages.github.com)
+- **GitHub Pages**
+- **أي منصة استضافة أخرى تدعم React**
 
 ## 📝 الاستخدام
 
