@@ -237,37 +237,55 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
               <Clipboard className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
             </div>
           </div>
+          
+          {/* زر لصق منفصل */}
+          <Button
+            type="button"
+            onClick={async () => {
+              try {
+                if (navigator.clipboard && navigator.clipboard.readText) {
+                  const text = await navigator.clipboard.readText();
+                  if (text && text.trim()) {
+                    setPastedText(text);
+                    toast.success("تم لصق النص بنجاح", {
+                      description: "يمكنك الآن الضغط على زر التحليل",
+                      icon: <ClipboardPaste className="w-5 h-5 text-success" />,
+                    });
+                    return;
+                  } else {
+                    toast.warning("الحافظة فارغة", {
+                      description: "يرجى نسخ نص أولاً",
+                    });
+                    return;
+                  }
+                }
+              } catch (error) {
+                console.error("Error pasting:", error);
+                textareaRef.current?.focus();
+                toast.info("يرجى الصق يدوياً في حقل النص", {
+                  description: "استخدم Ctrl+V أو Cmd+V",
+                });
+                return;
+              }
+              
+              // إذا لم يكن Clipboard API مدعوماً
+              textareaRef.current?.focus();
+              toast.info("يرجى استخدام Ctrl+V أو Cmd+V للصق", {
+                description: "أو انقر في حقل النص والصق يدوياً",
+              });
+            }}
+            variant="outline"
+            className="w-full h-12 sm:h-14 border-2 border-primary/30 hover:border-primary hover:bg-primary/10 transition-all rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base"
+          >
+            <ClipboardPaste className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
+            لصق من الحافظة
+          </Button>
         </div>
 
+        {/* زر التحليل المنفصل */}
         <Button
-          onClick={async () => {
-            // محاولة اللصق أولاً
-            try {
-              if (navigator.clipboard && navigator.clipboard.readText) {
-                const text = await navigator.clipboard.readText();
-                if (text && text.trim()) {
-                  setPastedText(text);
-                  // بعد اللصق، قم بالتحليل مباشرة
-                  setTimeout(() => {
-                    handleParse();
-                  }, 100);
-                  return;
-                }
-              }
-            } catch (error) {
-              console.error("Error pasting:", error);
-            }
-            
-            // إذا لم يكن هناك نص في الحافظة أو فشل اللصق، قم بالتحليل فقط
-            if (pastedText.trim()) {
-              handleParse();
-            } else {
-              toast.warning("يرجى لصق النص أولاً", {
-                description: "انسخ النص والصقه في الحقل أعلاه",
-              });
-            }
-          }}
-          disabled={isProcessing}
+          onClick={handleParse}
+          disabled={!pastedText.trim() || isProcessing}
           className="w-full h-14 sm:h-16 bg-gradient-primary hover:shadow-glow transition-all rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isProcessing ? (
@@ -277,8 +295,8 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
             </>
           ) : (
             <>
-              <ClipboardPaste className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
-              لصق وتحليل البيانات تلقائياً
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
+              تحليل وإدخال البيانات تلقائياً
             </>
           )}
         </Button>
