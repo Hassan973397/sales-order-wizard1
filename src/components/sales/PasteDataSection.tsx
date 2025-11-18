@@ -247,7 +247,7 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
 
       <div className="space-y-4">
         <div className="group">
-          <Label htmlFor="pasteData" className="text-xs sm:text-sm font-semibold text-foreground mb-2 block flex items-center gap-1.5 sm:gap-2">
+          <Label htmlFor="pasteData" className="text-xs sm:text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5 sm:gap-2">
             <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-primary rounded-full"></span>
             الصق النص هنا (مثال: الزبون حسن الحمداني، الرقم 0780000012، العنوان النجف حي الحرفين، المنتج صوبة كهربائية دوارة)
           </Label>
