@@ -41,7 +41,7 @@ export const DeliverySection = ({ selectedCompany, onSelectCompany }: DeliverySe
           >
             <SelectTrigger 
               id="deliveryCompany"
-              className="h-14 rounded-xl border-2 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-background/50 hover:bg-background pr-10"
+              className="h-14 rounded-xl border-2 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-background/50 hover:bg-background pr-10 [&>span]:!line-clamp-none [&>span]:!whitespace-nowrap [&>span]:!overflow-visible"
             >
               <SelectValue placeholder="اختر شركة التوصيل..." className="text-base font-medium">
                 {selectedCompany ? `${selectedCompany.name} - ${selectedCompany.cost.toLocaleString("en-US")} IQD` : ""}
