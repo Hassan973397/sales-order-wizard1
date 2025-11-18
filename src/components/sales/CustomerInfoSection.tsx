@@ -69,7 +69,7 @@ export const CustomerInfoSection = ({
       
       <div className="space-y-4 sm:space-y-5 md:space-y-6">
         <div className="group">
-          <Label htmlFor="customerName" className="text-xs sm:text-sm font-semibold text-foreground mb-2 block flex items-center gap-1.5 sm:gap-2">
+          <Label htmlFor="customerName" className="text-xs sm:text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5 sm:gap-2">
             <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-primary rounded-full"></span>
             اسم الزبون *
           </Label>
@@ -89,7 +89,7 @@ export const CustomerInfoSection = ({
         </div>
 
         <div className="group">
-          <Label htmlFor="phone" className="text-xs sm:text-sm font-semibold text-foreground mb-2 block flex items-center gap-1.5 sm:gap-2">
+          <Label htmlFor="phone" className="text-xs sm:text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5 sm:gap-2">
             <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-primary rounded-full"></span>
             رقم الموبايل *
           </Label>
@@ -111,7 +111,7 @@ export const CustomerInfoSection = ({
         </div>
 
         <div className="group">
-          <Label htmlFor="province" className="text-xs sm:text-sm font-semibold text-foreground mb-2 block flex items-center gap-1.5 sm:gap-2">
+          <Label htmlFor="province" className="text-xs sm:text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5 sm:gap-2">
             <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-primary rounded-full"></span>
             المحافظة *
           </Label>
@@ -163,7 +163,7 @@ export const CustomerInfoSection = ({
         </div>
 
         <div className="group">
-          <Label htmlFor="addressDetails" className="text-xs sm:text-sm font-semibold text-foreground mb-2 block flex items-center gap-1.5 sm:gap-2">
+          <Label htmlFor="addressDetails" className="text-xs sm:text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5 sm:gap-2">
             <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-primary rounded-full"></span>
             تفاصيل العنوان *
           </Label>
@@ -183,7 +183,7 @@ export const CustomerInfoSection = ({
         </div>
 
         <div className="group">
-          <Label htmlFor="notes" className="text-xs sm:text-sm font-semibold text-foreground mb-2 block flex items-center gap-1.5 sm:gap-2">
+          <Label htmlFor="notes" className="text-xs sm:text-sm font-semibold text-foreground mb-2 flex items-center gap-1.5 sm:gap-2">
             <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-accent rounded-full"></span>
             ملاحظات (اختياري)
           </Label>
