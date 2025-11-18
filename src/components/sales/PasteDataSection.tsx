@@ -214,14 +214,14 @@ export const PasteDataSection = ({ onDataParsed }: PasteDataSectionProps) => {
         <div className="group">
           <Label htmlFor="pasteData" className="text-xs sm:text-sm font-semibold text-foreground mb-2 block flex items-center gap-1.5 sm:gap-2">
             <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-primary rounded-full"></span>
-            الصق النص هنا (مثال: الزبون علي الحمداني، الرقم 07801899916، العنوان النجف الكوفة، المنتج صوبة كهربائية)
+            الصق النص هنا (مثال: الزبون حسن الحمداني، الرقم 0780000012، العنوان النجف حي الحرفين، المنتج صوبة كهربائية دوارة)
           </Label>
           <div className="relative">
             <Textarea
               id="pasteData"
               value={pastedText}
               onChange={(e) => setPastedText(e.target.value)}
-              placeholder="مثال:&#10;الزبون علي الحمداني&#10;الرقم 07801899916&#10;العنوان النجف الكوفة&#10;المنتج صوبة كهربائية"
+              placeholder="مثال:&#10;الزبون حسن الحمداني&#10;الرقم 0780000012&#10;العنوان النجف حي الحرفين&#10;المنتج صوبة كهربائية دوارة"
               className="min-h-[120px] sm:min-h-[150px] text-sm sm:text-base rounded-lg sm:rounded-xl border-2 border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 bg-background/50 hover:bg-background resize-none pr-12"
             />
             <div className="absolute left-2 sm:left-3 top-2.5 sm:top-3 p-1 sm:p-1.5 bg-primary/10 rounded-md sm:rounded-lg">
