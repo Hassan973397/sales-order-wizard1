@@ -78,4 +78,4 @@ npm run build
 
 ---
 
-صُنع بـ ❤️ باستخدام React و TypeScript
+صُنع باستخدام React و TypeScript
